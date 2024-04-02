@@ -48,13 +48,14 @@ class RegisterView(APIView):
 
 
 
+
 class LoginView(APIView):
     def post(self, request):
         email = request.data.get('email')
         password = request.data.get('password')
         
         try:
-            user = Account.objects.get(email=email)
+                user = Account.objects.get(email=email)
         except Account.DoesNotExist:
             return Response({'error': 'User not found'}, status=404)
 
@@ -62,16 +63,15 @@ class LoginView(APIView):
             return Response({'error': 'User account is not activated'}, status=400)
 
         # Authenticate the user
-        authenticated_user = authenticate(email=email, password=password)
-        if not authenticated_user:
+        if not user.check_password(password):  # Use check_password method
             return Response({'error': 'Authentication failed'}, status=400)
 
-        # Use Django's login method to log in the user
-        django_login(request, authenticated_user)
+        # Use Django's login method (optional, consider token-based auth)
+        django_login(request, user)
 
         # Generate JWT token
         payload = {
-            'id': authenticated_user.id,
+            'id': user.id,
              'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=60),
             'iat': datetime.datetime.utcnow(),
         }
