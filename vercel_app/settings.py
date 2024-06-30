@@ -178,7 +178,7 @@ JAZZMIN_SETTINGS = {
     'site_header':"Inclusify",
     'site_brand':"Donate for those in need",
     'site_logo':"img/inclusify-logo.png",
-    'copyright':"mittalmart.com",
+    'copyright':"inclusify-donation-platform.vercel.app",
 
 }
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
